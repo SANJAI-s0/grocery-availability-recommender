@@ -110,7 +110,7 @@ This leads to:
 
 ### High-Level Architecture Diagram
 
-![System Architecture](docs/assets/architecture.png)
+![System Architecture](docs/assets/architecture.svg)
 
 ### Description
 
