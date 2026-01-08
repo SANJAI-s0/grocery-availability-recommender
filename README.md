@@ -78,7 +78,7 @@ This leads to:
 
 ## 🏗️ System Architecture
 
-```mermaid
+```
                                         ┌────────────┐
                                         │  Browser   │
                                         │ (React UI) │
