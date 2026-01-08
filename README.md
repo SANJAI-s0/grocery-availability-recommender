@@ -85,10 +85,10 @@ This leads to:
                                         └──────┬─────┘
                                                │ HTTPS / HTTP
                                                ▼
-                                     ┌──────────────────────┐
-                                     │      NGINX (80)      │  ← serves React static files
-                                     │ (reverse proxy / CDN)│
-                                     └────────┬─────────────┘
+                                     ┌─────────────────────┐
+                                     │     NGINX (80)      │  ← serves React static files
+                                     │(reverse proxy / CDN)│
+                                     └────────┬────────────┘
                                               │ /api/* → proxy
                                               ▼
                               ┌────────────────────────────────┐
@@ -96,16 +96,16 @@ This leads to:
                               │  REST APIs:                    │
                               │      /api/predict-availability │
                               │      /api/recommend            │
-                              │      /health, /metrics         │
+                              │      /health                   │
                               └──────────────┬─────────────────┘
                                              │
                      ┌───────────────────────┼───────────────────────┐
                      │                       │                       │
                      ▼                       ▼                       ▼
-            ┌─────────────────┐      ┌────────────────┐       ┌───────────────┐
-            │ ML Models (.pkl)│      │   Database     │       │  Cache (opt)  │
-            │ (sklearn TFIDF) │      │ (Postgres/SQL) │       │   (Redis)     │
-            └─────────────────┘      └────────────────┘       └───────────────┘
+            ┌─────────────────┐      ┌────────────────┐       ┌──────────────┐
+            │ ML Models (.pkl)│      │   Database     │       │ Cache (opt)  │
+            │ (sklearn TFIDF) │      │ (Postgres/SQL) │       │  (Redis)     │
+            └─────────────────┘      └────────────────┘       └──────────────┘
 ```
 
 ### High-Level Architecture Diagram
