@@ -1,0 +1,48 @@
+<!-- docs/assets/architecture.svg -->
+<svg width="1000" height="600" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .box { fill:#ffffff; stroke:#333; stroke-width:2; rx:10; ry:10; }
+    .title { font-size:16px; font-weight:bold; fill:#111; }
+    .text { font-size:13px; fill:#333; }
+    .arrow { stroke:#333; stroke-width:2; marker-end:url(#arrowhead); }
+  </style>
+
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7"
+            refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+    </marker>
+  </defs>
+
+  <!-- Browser -->
+  <rect x="400" y="20" width="200" height="60" class="box"/>
+  <text x="500" y="50" text-anchor="middle" class="title">Browser (User)</text>
+
+  <!-- Nginx -->
+  <rect x="380" y="120" width="240" height="70" class="box"/>
+  <text x="500" y="150" text-anchor="middle" class="title">Nginx</text>
+  <text x="500" y="168" text-anchor="middle" class="text">React Static Files</text>
+
+  <!-- Backend -->
+  <rect x="350" y="250" width="300" height="110" class="box"/>
+  <text x="500" y="280" text-anchor="middle" class="title">Flask Backend</text>
+  <text x="500" y="300" text-anchor="middle" class="text">/api/predict-availability</text>
+  <text x="500" y="318" text-anchor="middle" class="text">/api/recommend</text>
+  <text x="500" y="336" text-anchor="middle" class="text">/health</text>
+
+  <!-- ML -->
+  <rect x="120" y="420" width="240" height="80" class="box"/>
+  <text x="240" y="450" text-anchor="middle" class="title">ML Models</text>
+  <text x="240" y="470" text-anchor="middle" class="text">Logistic Regression</text>
+
+  <!-- DB -->
+  <rect x="640" y="420" width="240" height="80" class="box"/>
+  <text x="760" y="450" text-anchor="middle" class="title">Database</text>
+  <text x="760" y="470" text-anchor="middle" class="text">SQLite / PostgreSQL</text>
+
+  <!-- Arrows -->
+  <line x1="500" y1="80" x2="500" y2="120" class="arrow"/>
+  <line x1="500" y1="190" x2="500" y2="250" class="arrow"/>
+  <line x1="350" y1="330" x2="240" y2="420" class="arrow"/>
+  <line x1="650" y1="330" x2="760" y2="420" class="arrow"/>
+</svg>

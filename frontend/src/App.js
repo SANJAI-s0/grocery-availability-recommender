@@ -1,10 +1,13 @@
 // frontend/src/App.js
 import React, { useState, useEffect } from "react";
 import "./styles/App.css";
+
 import Availability from "./components/Availability";
 import ProductList from "./components/ProductList";
 import Replacement from "./components/Replacement";
-import { getReplacements } from "./api";
+import NewWidget from "./components/NewWidget";
+
+import { predictAvailability, getReplacements } from "./api";
 
 const SAMPLE_PRODUCTS = [
   { sku: "SKU001", name: "Whole Milk", category: "Dairy", price: 2.5 },
@@ -23,39 +26,63 @@ function App() {
     setReplacements([]);
   }, [selectedProduct]);
 
+  async function onAvailabilityResult(res) {
+    setAvailabilityResult(res);
+  }
+
   async function onSuggest(productName) {
     setSelectedProduct(productName);
     try {
       const recs = await getReplacements(productName);
       setReplacements(recs);
     } catch (err) {
-      alert("Error fetching replacements: " + err.message);
+      alert("Error: " + err.message);
     }
   }
 
   return (
-    <div>
+    <div className="app-root">
       <h1>Grocery Availability Recommender</h1>
+
+      {/* Dashboard widgets */}
+      <div className="widget-grid">
+        <NewWidget
+          title="Selected Product"
+          value={selectedProduct || "None"}
+          description="Product currently under analysis"
+        />
+        <NewWidget
+          title="Availability"
+          value={
+            availabilityResult
+              ? availabilityResult.available
+                ? "Available"
+                : "Out of Stock"
+              : "Not Checked"
+          }
+          description="Predicted by ML model"
+        />
+        <NewWidget
+          title="Replacement Count"
+          value={replacements.length}
+          description="Suggested alternatives"
+        />
+      </div>
 
       <div className="container">
         <div>
           <ProductList
             products={SAMPLE_PRODUCTS}
-            onSelect={onSuggest}
+            onSelect={(name) => onSuggest(name)}
           />
-
-          <Availability onResult={setAvailabilityResult} />
+          <Availability onResult={onAvailabilityResult} />
         </div>
 
         <div>
           <Replacement items={replacements} />
-
-          <div className="card">
-            <h4>📊 Availability Result</h4>
+          <div className="debug-card">
+            <h4>Raw Availability Output</h4>
             <pre>{JSON.stringify(availabilityResult, null, 2)}</pre>
-
-            <h4>🧾 Selected Product</h4>
-            <p>{selectedProduct || "None"}</p>
           </div>
         </div>
       </div>
