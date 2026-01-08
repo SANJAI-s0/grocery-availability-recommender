@@ -78,7 +78,7 @@ This leads to:
 
 ## 🏗️ System Architecture
 
-```mermaidgraph
+```mermaid
                                         ┌────────────┐
                                         │  Browser   │
                                         │ (React UI) │
@@ -112,13 +112,13 @@ This leads to:
 
 ![System Architecture](docs/assets/architecture.png)
 
-**Description:**
+### Description
 
--   The React frontend is served via Nginx
--   All API requests are routed to a Flask backend
--   Flask loads trained ML models for predictions
--   Data is stored in a relational database (SQLite/PostgreSQL)
--   The system is fully containerized using Docker Compose
+- The React frontend is served via **Nginx**
+- All `/api/*` requests are routed to the **Flask backend**
+- Flask loads trained **ML models (.pkl)** for predictions
+- Data is stored in a relational database (**SQLite / PostgreSQL**)
+- The entire system is **containerized using Docker Compose**
 
 ---
 
