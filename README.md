@@ -1,8 +1,12 @@
 # 🛒 Grocery Availability Recommender
 
-![Python](https://img.shields.io/badge/Python-3.12-blue) ![Flask](https://img.shields.io/badge/Flask-Backend-green) ![React](https://img.shields.io/badge/React-Frontend-61DAFB) ![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED) ![SQL](https://img.shields.io/badge/Database-SQL-orange) ![Machine Learning](https://img.shields.io/badge/Machine%20Learning-Enabled-purple) ![CI](https://github.com/%3Cyour-username%3E/grocery-availability-recommender/actions/workflows/ci.yml/badge.svg) ![Recommendation System](https://img.shields.io/badge/Recommendation-System-brightgreen) ![REST API](https://img.shields.io/badge/API-REST-yellow) ![Nginx](https://img.shields.io/badge/Nginx-Production%20Ready-009639) ![PWA Ready](https://img.shields.io/badge/PWA-Ready-blueviolet) ![Open Source Tools](https://img.shields.io/badge/Open%20Source-Tools-orange) ![License](https://img.shields.io/badge/License-All%20Rights%20Reserved-red) ![Status](https://img.shields.io/badge/Project-Completed-success) ![Academic Project](https://img.shields.io/badge/Type-Academic%20Project-informational) ![MLOps Ready](https://img.shields.io/badge/MLOps-Basic-lightgrey) ![Microservices](https://img.shields.io/badge/Architecture-Modular-blue) ![Cloud Ready](https://img.shields.io/badge/Cloud-Deployable-9cf)
+![Python](https://img.shields.io/badge/Python-3.12-blue) ![Flask](https://img.shields.io/badge/Flask-Backend-green) ![React](https://img.shields.io/badge/React-Frontend-61DAFB) ![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED) ![SQL](https://img.shields.io/badge/Database-SQL-orange) ![Machine Learning](https://img.shields.io/badge/Machine%20Learning-Enabled-purple) ![CI](https://github.com/SANJAI-s0/grocery-availability-recommender/actions/workflows/ci.yml/badge.svg) ![Recommendation System](https://img.shields.io/badge/Recommendation-System-brightgreen) ![REST API](https://img.shields.io/badge/API-REST-yellow) ![Nginx](https://img.shields.io/badge/Nginx-Production%20Ready-009639) ![PWA Ready](https://img.shields.io/badge/PWA-Ready-blueviolet) ![Open Source Tools](https://img.shields.io/badge/Open%20Source-Tools-orange) ![License](https://img.shields.io/badge/License-All%20Rights%20Reserved-red) ![Status](https://img.shields.io/badge/Project-Completed-success) ![Academic Project](https://img.shields.io/badge/Type-Academic%20Project-informational) ![MLOps Ready](https://img.shields.io/badge/MLOps-Basic-lightgrey) ![Microservices](https://img.shields.io/badge/Architecture-Modular-blue) ![Cloud Ready](https://img.shields.io/badge/Cloud-Deployable-9cf)
+
+---
 
 ![System Architecture](docs/assets/architecture.png)
+
+---
 
 A full-stack, machine-learning–powered system that predicts grocery item availability and suggests intelligent replacements when items are likely to be out of stock.
 
@@ -12,32 +16,32 @@ This project is inspired by real-world problems faced by online grocery platform
 
 ## 📖 Table of Contents
 
-- [Problem Statement](#-problem-statement)
-    - [Objective](#objective)
-- [Features](#-features)
-- [System Architecture](#-system-architecture)
-  - [High-Level Architecture Diagram](#high-level-architecture-diagram)
-- [API Flow (Sequence Diagram)](#-api-flow-sequence-diagram)
-- [Tech Stack](#-tech-stack)
-  - [Frontend](#frontend)
-  - [Backend](#backend)
-  - [Database](#database)
-  - [DevOps](#devops)
-- [Project Structure](#-project-structure)
-- [Setup & Installation](#-setup--installation)
-  - [Prerequisites](#prerequisites)
-  - [Run with Docker (Recommended)](#-run-with-docker-recommended)
-- [API Endpoints](#-api-endpoints)
-- [Example Workflow](#-example-workflow)
-- [Machine Learning Details](#-machine-learning-details)
-- [Docker & Production Readiness](#-docker--production-readiness)
-- [License](#-license)
-- [Academic Use](#-academic-use)
-- [Team](#-team)
-- [Contact](#-contact)
-- [Acknowledgements](#-acknowledgements)
-- [Disclaimer](#-disclaimer)
-- [References](#-references)
+-   [Problem Statement](#-problem-statement)
+    -   [Objective](#objective)
+-   [Features](#-features)
+-   [System Architecture](#-system-architecture)
+    -   [High-Level Architecture Diagram](#high-level-architecture-diagram)
+-   [API Flow (Sequence Diagram)](#-api-flow-sequence-diagram)
+-   [Tech Stack](#-tech-stack)
+    -   [Frontend](#frontend)
+    -   [Backend](#backend)
+    -   [Database](#database)
+    -   [DevOps](#devops)
+-   [Project Structure](#-project-structure)
+-   [Setup & Installation](#-setup--installation)
+    -   [Prerequisites](#prerequisites)
+    -   [Run with Docker (Recommended)](#-run-with-docker-recommended)
+-   [API Endpoints](#-api-endpoints)
+-   [Example Workflow](#-example-workflow)
+-   [Machine Learning Details](#-machine-learning-details)
+-   [Docker & Production Readiness](#-docker--production-readiness)
+-   [License](#-license)
+-   [Academic Use](#-academic-use)
+-   [Team](#-team)
+-   [Contact](#-contact)
+-   [Acknowledgements](#-acknowledgements)
+-   [Disclaimer](#-disclaimer)
+-   [References](#-references)
 
 ---
 
@@ -115,11 +119,12 @@ This leads to:
 ![System Architecture](docs/assets/architecture.png)
 
 **Description:**
-- The React frontend is served via Nginx
-- All API requests are routed to a Flask backend
-- Flask loads trained ML models for predictions
-- Data is stored in a relational database (SQLite/PostgreSQL)
-- The system is fully containerized using Docker Compose
+
+-   The React frontend is served via Nginx
+-   All API requests are routed to a Flask backend
+-   Flask loads trained ML models for predictions
+-   Data is stored in a relational database (SQLite/PostgreSQL)
+-   The system is fully containerized using Docker Compose
 
 ---
 
@@ -148,9 +153,10 @@ sequenceDiagram
 **✅ If Mermaid does NOT render on GitHub (backup)**
 
 You can also export this as an image later using:
-- Mermaid Live Editor
-- draw.io
-- PlantUML
+
+-   Mermaid Live Editor
+-   draw.io
+-   PlantUML
 
 ---
 
@@ -186,85 +192,108 @@ You can also export this as an image later using:
 ```
 grocery-availability-recommender/
 │
-├── backend/                         # Flask backend + ML logic
-│   │
-│   ├── app.py                       # CORE: Flask app entry point + health endpoint
-│   ├── config.py                    # CORE: Environment & DB configuration
-│   ├── requirements.txt             # CORE: Python dependencies
-│   ├── Dockerfile                   # CORE: Backend Docker image
-│   ├── __init__.py                  # AUTO: Python package marker
-│   │
-│   ├── database/                    # Database layer
-│   │   ├── db.py                    # CORE: SQLAlchemy engine & ORM models
-│   │   └── schema.sql               # CORE: SQL schema (manual init / reference)
-│   │
-│   ├── ml/                          # Model training scripts
-│   │   ├── train_availability.py    # CORE: Train availability prediction model
-│   │   └── train_replacement.py     # CORE: Train replacement recommendation model
-│   │
-│   ├── models/                      # Serialized ML models
-│   │   ├── __init__.py              # AUTO: Python package marker
-│   │   ├── availability_model.pkl   # AUTO: Generated ML model artifact
-│   │   └── replacement_model.pkl    # AUTO: Generated ML model artifact
-│   │
-│   ├── routes/                      # API routes (Flask Blueprints)
-│   │   ├── __init__.py              # AUTO: Python package marker
-│   │   ├── availability.py          # CORE: /api/predict-availability
-│   │   └── replacement.py           # CORE: /api/recommend
-│   │
-│   └── utils/                       # Helper & preprocessing utilities
-│       ├── helpers.py               # CORE: Common helper functions
-│       └── preprocess.py            # CORE: Data preprocessing pipeline
+├── .github/                              # GitHub configuration
+│   └── workflows/
+│       └── ci.yml                        # CORE: GitHub Actions CI pipeline
 │
-├── frontend/                        # React frontend (served via Nginx)
+├── backend/                              # Flask backend + ML logic
 │   │
-│   ├── Dockerfile                   # CORE: Multi-stage React → Nginx build
-│   ├── package.json                 # AUTO: npm dependency manifest
-│   ├── package-lock.json            # AUTO: npm lock file
-│   ├── .dockerignore                # OPTIONAL: Docker context optimization
+│   ├── app.py                            # CORE: Flask app entry point + health endpoint
+│   ├── config.py                         # CORE: Environment & DB configuration
+│   ├── requirements.txt                  # CORE: Python dependencies
+│   ├── Dockerfile                        # CORE: Backend Docker image
+│   ├── __init__.py                       # AUTO: Python package marker
 │   │
-│   ├── public/                      # Static public assets
-│   │   ├── index.html               # CORE: Production HTML skeleton
-│   │   ├── favicon.ico              # OPTIONAL: Browser favicon
-│   │   ├── favicon.svg              # OPTIONAL: Scalable SVG favicon
-│   │   └── manifest.json            # OPTIONAL: PWA manifest
+│   ├── database/                         # Database layer
+│   │   ├── db.py                         # CORE: SQLAlchemy engine & ORM models
+│   │   └── schema.sql                    # CORE: SQL schema reference
 │   │
-│   └── src/                         # React source code
-│       ├── index.js                 # CORE: React DOM entry
-│       ├── App.js                   # CORE: Root component
-│       ├── api.js                   # CORE: Backend API integration
-│       │
-│       ├── components/              # UI components
-│       │   ├── ProductList.jsx      # CORE: Product listing UI
-│       │   ├── Availability.jsx     # CORE: Availability prediction UI
-│       │   └── Replacement.jsx      # CORE: Replacement suggestions UI
-│       │
-│       └── styles/                  # CSS styles
-│           └── App.css              # CORE: Global styles
+│   ├── ml/                               # Model training scripts
+│   │   ├── train_availability.py         # CORE: Availability ML training
+│   │   └── train_replacement.py          # CORE: Replacement ML training
+│   │
+│   ├── models/                           # Serialized ML models
+│   │   ├── __init__.py                   # AUTO: Package marker
+│   │   ├── availability_model.pkl        # AUTO: Generated ML artifact
+│   │   └── replacement_model.pkl         # AUTO: Generated ML artifact
+│   │
+│   ├── routes/                           # API routes (Flask Blueprints)
+│   │   ├── __init__.py                   # AUTO
+│   │   ├── availability.py               # CORE: /api/predict-availability
+│   │   └── replacement.py                # CORE: /api/recommend
+│   │
+│   └── utils/                            # Helper utilities
+│       ├── helpers.py                    # CORE: Shared helpers
+│       ├── preprocess.py                 # CORE: Data preprocessing
+│       └── __init__.py                   # AUTO
 │
-├── data/                            # Datasets
+├── frontend/                             # React frontend (served via Nginx)
+│   │
+│   ├── Dockerfile                        # CORE: Multi-stage React → Nginx build
+│   ├── package.json                     # CORE: npm dependencies
+│   ├── .dockerignore                    # OPTIONAL: Docker optimization
+│   │
+│   ├── public/                          # Static assets
+│   │   ├── index.html                   # CORE: HTML entry
+│   │   ├── favicon.ico                  # OPTIONAL: Browser favicon
+│   │   └── manifest.json                # OPTIONAL: PWA manifest
+│   │
+│   └── src/
+│       ├── index.js                     # CORE: React entry point
+│       ├── App.js                       # CORE: Root component
+│       ├── api.js                       # CORE: Backend API calls
+│       │
+│       ├── components/
+│       │   ├── ProductList.jsx          # CORE: Product listing
+│       │   ├── Availability.jsx         # CORE: Availability prediction UI
+│       │   ├── Replacement.jsx          # CORE: Replacement UI
+│       │   └── NewWidget.jsx            # OPTIONAL: Extra dashboard widget
+│       │
+│       └── styles/
+│           └── App.css                  # CORE: Global styles
+│
+├── data/                                # Datasets
 │   ├── raw/
-│   │   └── products.csv             # CORE: Raw product catalog
+│   │   └── products.csv                 # CORE: Raw product catalog
+│   │
 │   └── processed/
-│       └── features.csv             # AUTO: Generated ML-ready dataset
+│       └── features.csv                 # AUTO: ML-ready dataset
 │
-├── grocery.db                       # OPTIONAL: SQLite database (local dev only)
-├── docker-compose.yml               # CORE: Multi-container orchestration
-├── .gitignore                       # CORE: Git ignore rules
-├── LICENSE                          # CORE: Restrictive license
-└── README.md                        # CORE: Project documentation
+├── docs/                                # Documentation assets
+│   └── assets/
+│       └── architecture.png             # CORE: System architecture diagram
+│
+├── grocery.db                           # OPTIONAL: SQLite DB (local dev)
+│
+├── docker-compose.yml                   # CORE: Multi-container orchestration
+├── .gitignore                           # CORE: Git ignore rules
+├── LICENSE                              # CORE: Restrictive license
+└── README.md                            # CORE: Project documentation
 ```
 
-**✅ Quick Classification Summary**
+**🏷️ File Classification Summary**
 
-```table
-| Type                 | Examples                                                   |
-| -------------------- | ---------------------------------------------------------- |
-| **Core (Manual)**    | app.py, routes, React components, Dockerfiles              |
-| **Auto-Generated**   | `__init__.py`, `.pkl`, `features.csv`, `package-lock.json` |
-| **Optional**         | `.venv`, `grocery.db`, favicon, manifest                   |
-| **Runtime (Docker)** | containers, networks, logs (not in repo)                   |
-```
+1.  CORE (Manually Written)
+    
+    -   app.py, routes/, React components, Dockerfiles
+    -   README.md, LICENSE, docker-compose.yml
+    -   docs/assets/architecture.png
+    -   ci.yml
+2.  AUTO-GENERATED
+    
+    -   **init**.py
+    -   *.pkl (ML models)
+    -   features.csv
+3.  OPTIONAL
+    
+    -   grocery.db
+    -   favicon.ico
+    -   manifest.json
+    -   NewWidget.jsx
+4.  RUNTIME (Not in Repo)
+    
+    -   Docker containers
+    -   Networks, volumes, logs
 
 ---
 
@@ -286,14 +315,14 @@ grocery-availability-recommender/
 docker compose up --build     # Build and start all services in your terminal/powershell from project root.
 ```
 
-> To stop the services, press `CTRL + C` in the terminal/powershell where `docker compose up` is running.
-> to force stop the process, press CTRL + C twice.
+> To stop the services, press `CTRL + C` in the terminal/powershell where `docker compose up` is running. to force stop the process, press CTRL + C twice.
 
 ```docker
 docker compose down            # Stop and remove containers when done.
 ```
 
 **More commands to manage the Docker Compose setup:**
+
 ```docker
 docker compose logs -f              # View real-time logs for all services.
 docker compose logs -f backend      # View real-time logs for backend only.
