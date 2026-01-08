@@ -78,9 +78,7 @@ This leads to:
 
 ## 🏗️ System Architecture
 
-![System Architecture](docs/assets/architecture.png)
-
-```
+```mermaidgraph
                                         ┌────────────┐
                                         │  Browser   │
                                         │ (React UI) │
