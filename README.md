@@ -114,11 +114,11 @@ This leads to:
 
 ### Description
 
-- The React frontend is served via **Nginx**
-- All `/api/*` requests are routed to the **Flask backend**
-- Flask loads trained **ML models (.pkl)** for predictions
-- Data is stored in a relational database (**SQLite / PostgreSQL**)
-- The entire system is **containerized using Docker Compose**
+-   The React frontend is served via **Nginx**
+-   All `/api/*` requests are routed to the **Flask backend**
+-   Flask loads trained **ML models (.pkl)** for predictions
+-   Data is stored in a relational database (**SQLite / PostgreSQL**)
+-   The entire system is **containerized using Docker Compose**
 
 ---
 
@@ -515,4 +515,4 @@ For academic or permission-based usage, please contact the project owner.
 
 ---
 
-**© 2026 Team. All rights reserved.**
+**© 2026  Team. All rights reserved.**
