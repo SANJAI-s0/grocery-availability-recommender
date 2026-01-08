@@ -1,0 +1,84 @@
+/* Global */
+body {
+  font-family: "Segoe UI", Roboto, sans-serif;
+  margin: 0;
+  padding: 24px;
+  background: #f4f7fb;
+  color: #1e293b;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+/* Layout */
+.container {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 24px;
+}
+
+/* Cards */
+.card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+  margin-bottom: 20px;
+}
+
+/* Product List */
+.product-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.product-item:last-child {
+  border-bottom: none;
+}
+
+.product-name {
+  font-weight: 600;
+}
+
+.category {
+  background: #eef2ff;
+  color: #4338ca;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  margin-left: 8px;
+}
+
+.price {
+  color: #0ea5a4;
+  font-weight: bold;
+}
+
+/* Buttons */
+button {
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  border: none;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+/* Status */
+.status-ok {
+  color: #16a34a;
+  font-weight: bold;
+}
+
+.status-bad {
+  color: #dc2626;
+  font-weight: bold;
+}
