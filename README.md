@@ -2,12 +2,6 @@
 
 ![Python](https://img.shields.io/badge/Python-3.12-blue) ![Flask](https://img.shields.io/badge/Flask-Backend-green) ![React](https://img.shields.io/badge/React-Frontend-61DAFB) ![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED) ![SQL](https://img.shields.io/badge/Database-SQL-orange) ![Machine Learning](https://img.shields.io/badge/Machine%20Learning-Enabled-purple) ![CI](https://github.com/SANJAI-s0/grocery-availability-recommender/actions/workflows/ci.yml/badge.svg) ![Recommendation System](https://img.shields.io/badge/Recommendation-System-brightgreen) ![REST API](https://img.shields.io/badge/API-REST-yellow) ![Nginx](https://img.shields.io/badge/Nginx-Production%20Ready-009639) ![PWA Ready](https://img.shields.io/badge/PWA-Ready-blueviolet) ![Open Source Tools](https://img.shields.io/badge/Open%20Source-Tools-orange) ![License](https://img.shields.io/badge/License-All%20Rights%20Reserved-red) ![Status](https://img.shields.io/badge/Project-Completed-success) ![Academic Project](https://img.shields.io/badge/Type-Academic%20Project-informational) ![MLOps Ready](https://img.shields.io/badge/MLOps-Basic-lightgrey) ![Microservices](https://img.shields.io/badge/Architecture-Modular-blue) ![Cloud Ready](https://img.shields.io/badge/Cloud-Deployable-9cf)
 
----
-
-![System Architecture](docs/assets/architecture.png)
-
----
-
 A full-stack, machine-learning–powered system that predicts grocery item availability and suggests intelligent replacements when items are likely to be out of stock.
 
 This project is inspired by real-world problems faced by online grocery platforms (e.g., Instacart) and is implemented **entirely using free and open-source tools**.
@@ -83,6 +77,8 @@ This leads to:
 ---
 
 ## 🏗️ System Architecture
+
+![System Architecture](docs/assets/architecture.png)
 
 ```
                                         ┌────────────┐
