@@ -1,0 +1,21 @@
+{
+  "short_name": "GroceryAI",
+  "name": "Grocery Availability Recommender",
+  "description": "Predict grocery item availability and recommend intelligent replacements using machine learning.",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#2563EB",
+  "background_color": "#F4F7FB"
+}
