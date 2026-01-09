@@ -1,19 +1,27 @@
+version: "3.8"
+
 services:
   backend:
-    build: ./backend
+    container_name: grocery-backend
+    build:
+      context: ./backend
     ports:
       - "5000:5000"
+    restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://127.0.0.1:5000/health"]
       interval: 30s
       timeout: 5s
       retries: 3
-      start_period: 5s
+      start_period: 10s
 
   frontend:
-    build: ./frontend
+    container_name: grocery-frontend
+    build:
+      context: ./frontend
     ports:
       - "3000:80"
+    restart: unless-stopped
     depends_on:
       backend:
         condition: service_healthy
