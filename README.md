@@ -2,7 +2,7 @@
 
 ![Python](https://img.shields.io/badge/Python-3.12-blue) ![Flask](https://img.shields.io/badge/Flask-Backend-green) ![React](https://img.shields.io/badge/React-Frontend-61DAFB) ![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED) ![SQL](https://img.shields.io/badge/Database-SQL-orange) ![Machine Learning](https://img.shields.io/badge/Machine%20Learning-Enabled-purple) ![CI](https://github.com/SANJAI-s0/grocery-availability-recommender/actions/workflows/ci.yml/badge.svg) ![Recommendation System](https://img.shields.io/badge/Recommendation-System-brightgreen) ![REST API](https://img.shields.io/badge/API-REST-yellow) ![Nginx](https://img.shields.io/badge/Nginx-Production%20Ready-009639) ![PWA Ready](https://img.shields.io/badge/PWA-Ready-blueviolet) ![Open Source Tools](https://img.shields.io/badge/Open%20Source-Tools-orange) ![License](https://img.shields.io/badge/License-All%20Rights%20Reserved-red) ![Status](https://img.shields.io/badge/Project-Completed-success) ![Academic Project](https://img.shields.io/badge/Type-Academic%20Project-informational) ![MLOps Ready](https://img.shields.io/badge/MLOps-Basic-lightgrey) ![Microservices](https://img.shields.io/badge/Architecture-Modular-blue) ![Cloud Ready](https://img.shields.io/badge/Cloud-Deployable-9cf)
 
-A full-stack, machine-learning–powered system that predicts grocery item availability and suggests intelligent replacements when items are likely to be out of stock.
+A full-stack, machine-learning–powered system that predicts multi-domain product availability and suggests intelligent replacements when items are likely to be out of stock.
 
 This project is inspired by real-world problems faced by online grocery platforms (e.g., Instacart) and is implemented **entirely using free and open-source tools**.
 
@@ -59,53 +59,85 @@ This leads to:
 ## 🚀 Features
 
 -   🔮 **Availability Prediction**
-    -   Uses a machine learning model to predict item availability
--   🔁 **Intelligent Replacement Suggestions**
-    -   Suggests similar items when the original is unavailable
--   🧠 **ML-Powered Backend**
-    -   Scikit-learn models for prediction and recommendation
+    
+    -   Domain-aware machine learning models
+    -   Predicts if a product is *Available* or *Out of Stock*
+-   🟢 **Availability Status Badge**
+    
+    -   Clear visual indicator (Available / Out of Stock)
+-   📊 **Sales vs Availability Visualization**
+    
+    -   Interactive chart showing relationship between sales & availability
+-   🔁 **Similarity-Based Replacement Suggestions**
+    
+    -   TF-IDF + cosine similarity based recommendations
+    -   Intelligent alternatives when items are unavailable
+-   🔄 **Multi-Domain Support**
+    
+    -   Grocery, Electronics, Accessories
+    -   Automatic domain detection & switching
+-   🧠 **Auto-Training ML Pipeline**
+    
+    -   Automatic preprocessing & model training on container startup
 -   🌐 **Full-Stack Application**
+    
     -   React frontend + Flask backend
 -   🐳 **Dockerized Deployment**
-    -   Frontend and backend run as containers
+    
+    -   Fully containerized with Docker Compose
 -   ❤️ **Health Checks**
-    -   Docker health endpoints for production readiness
--   📦 **Production-Ready Frontend**
-    -   Nginx-served static React build
-    -   SEO metadata, manifest, favicon support
+    
+    -   Backend health endpoint for production readiness
 
 ---
 
 ## 🏗️ System Architecture
 
 ```
-                                        ┌────────────┐
-                                        │  Browser   │
-                                        │ (React UI) │
-                                        └──────┬─────┘
-                                               │ HTTPS / HTTP
-                                               ▼
-                                     ┌─────────────────────┐
-                                     │     NGINX (80)      │  ← serves React static files
-                                     │(reverse proxy / CDN)│
-                                     └────────┬────────────┘
-                                              │ /api/* → proxy
-                                              ▼
-                              ┌────────────────────────────────┐
-                              │         Backend (Flask)        │
-                              │  REST APIs:                    │
-                              │      /api/predict-availability │
-                              │      /api/recommend            │
-                              │      /health                   │
-                              └──────────────┬─────────────────┘
-                                             │
-                     ┌───────────────────────┼───────────────────────┐
-                     │                       │                       │
-                     ▼                       ▼                       ▼
-            ┌─────────────────┐      ┌────────────────┐       ┌──────────────┐
-            │ ML Models (.pkl)│      │   Database     │       │ Cache (opt)  │
-            │ (sklearn TFIDF) │      │ (Postgres/SQL) │       │  (Redis)     │
-            └─────────────────┘      └────────────────┘       └──────────────┘
+                                      ┌──────────────┐
+                                      │   Browser    │
+                                      │  (React UI)  │
+                                      └──────┬───────┘
+                                             │ HTTP
+                                             ▼
+                                  ┌──────────────────────┐
+                                  │     NGINX (80)       │
+                                  │  Static React Build  │
+                                  └────────┬─────────────┘
+                                           │ /api/* proxy
+                                           ▼
+                        ┌────────────────────────────────────────┐
+                        │           Backend (Flask API)          │
+                        │                                        │
+                        │  Routes:                               │
+                        │  • /api/domains                        │
+                        │  • /api/products?domain=x              │
+                        │  • /api/predict-availability           │
+                        │  • /api/recommend                      │
+                        │  • /health                             │
+                        └───────────────┬────────────────────────┘
+                                        │
+              ┌─────────────────────────┼─────────────────────────┐
+              │                         │                         │
+              ▼                         ▼                         ▼
+┌─────────────────────────┐   ┌─────────────────────────┐   ┌──────────────────┐
+│  Auto Preprocessing     │   │  Auto ML Training       │   │  SQLite / SQL DB │
+│  preprocess.py          │   │  (on container startup) │   │  (optional)      │
+│                         │   │                         │   │                  │
+│  raw → processed CSV    │   │  Availability Models    │   │                  │
+│  (per domain)           │   │  (per domain)           │   │                  │
+└──────────────┬──────────┘   │  Replacement Model      │   │                  │
+               │              │  (TF-IDF + Cosine Sim)  │   └──────────────────┘
+               ▼              └──────────────┬──────────┘
+┌────────────────────────────────────────────────────────────┐
+│                   ML Model Artifacts (.pkl)                │
+│                                                            │
+│  • availability_model_grocery.pkl                          │
+│  • availability_model_electronics.pkl                      │
+│  • availability_model_accessories.pkl                      │
+│  • availability_model.pkl (fallback)                       │
+│  • replacement_model.pkl (similarity-based)                │
+└────────────────────────────────────────────────────────────┘
 ```
 
 ### High-Level Architecture Diagram
@@ -119,6 +151,9 @@ This leads to:
 -   Flask loads trained **ML models (.pkl)** for predictions
 -   Data is stored in a relational database (**SQLite / PostgreSQL**)
 -   The entire system is **containerized using Docker Compose**
+-   Backend auto-preprocesses all domains on startup
+-   Domain-specific ML models are trained automatically
+-   Frontend visualizes predictions using badges and charts
 
 ---
 
@@ -186,83 +221,105 @@ You can also export this as an image later using:
 ```
 grocery-availability-recommender/
 │
-├── .github/                              # GitHub configuration
+├── .github/                                  # GitHub configuration
 │   └── workflows/
-│       └── ci.yml                        # CORE: GitHub Actions CI pipeline
+│       └── ci.yml                            # CI pipeline (build, test, Docker checks)
 │
-├── backend/                              # Flask backend + ML logic
+├── backend/                                  # Flask backend + ML system
 │   │
-│   ├── app.py                            # CORE: Flask app entry point + health endpoint
-│   ├── config.py                         # CORE: Environment & DB configuration
-│   ├── requirements.txt                  # CORE: Python dependencies
-│   ├── Dockerfile                        # CORE: Backend Docker image
-│   ├── __init__.py                       # AUTO: Python package marker
+│   ├── app.py                                # Flask app entry point + route registration
+│   ├── config.py                             # Environment variables & path config
+│   ├── startup.py                            # Auto-preprocess + auto-train on container start
+│   ├── models.py                             # Model loaders (domain-aware availability & replacement)
+│   ├── requirements.txt                      # Python dependencies
+│   ├── Dockerfile                            # Backend Docker image definition
+│   ├── __init__.py                           # Python package marker
 │   │
-│   ├── database/                         # Database layer
-│   │   ├── db.py                         # CORE: SQLAlchemy engine & ORM models
-│   │   └── schema.sql                    # CORE: SQL schema reference
+│   ├── database/                             # Database layer (optional / future use)
+│   │   ├── db.py                             # SQLAlchemy engine & helpers
+│   │   └── schema.sql                        # Reference SQL schema
 │   │
-│   ├── ml/                               # Model training scripts
-│   │   ├── train_availability.py         # CORE: Availability ML training
-│   │   └── train_replacement.py          # CORE: Replacement ML training
+│   ├── ml/                                   # Machine Learning training logic
+│   │   ├── train_availability.py             # Trains availability model (per-domain + fallback)
+│   │   ├── train_replacement.py              # Trains TF-IDF similarity replacement model
+│   │   └── __init__.py
 │   │
-│   ├── models/                           # Serialized ML models
-│   │   ├── __init__.py                   # AUTO: Package marker
-│   │   ├── availability_model.pkl        # AUTO: Generated ML artifact
-│   │   └── replacement_model.pkl         # AUTO: Generated ML artifact
+│   ├── models/                               # Saved ML artifacts (auto-generated)
+│   │   ├── __init__.py
+│   │   ├── availability_model.pkl            # Global availability model (fallback)
+│   │   ├── availability_model_grocery.pkl    # Domain-specific availability model
+│   │   ├── availability_model_electronics.pkl
+│   │   ├── availability_model_accessories.pkl
+│   │   └── replacement_model.pkl             # TF-IDF + cosine similarity model
 │   │
-│   ├── routes/                           # API routes (Flask Blueprints)
-│   │   ├── __init__.py                   # AUTO
-│   │   ├── availability.py               # CORE: /api/predict-availability
-│   │   └── replacement.py                # CORE: /api/recommend
+│   ├── routes/                               # Flask API routes (Blueprints)
+│   │   ├── __init__.py
+│   │   ├── availability.py                   # POST /api/predict-availability
+│   │   ├── replacement.py                    # POST /api/recommend
+│   │   └── products.py                       # GET /api/products, /api/domains
 │   │
-│   └── utils/                            # Helper utilities
-│       ├── helpers.py                    # CORE: Shared helpers
-│       ├── preprocess.py                 # CORE: Data preprocessing
-│       └── __init__.py                   # AUTO
+│   └── utils/                                # Shared utilities
+│       ├── preprocess.py                     # Converts raw → processed features per domain
+│       ├── helpers.py                        # File/path helpers
+│       └── __init__.py
 │
-├── frontend/                             # React frontend (served via Nginx)
+├── frontend/                                 # React frontend (served by Nginx)
 │   │
-│   ├── Dockerfile                        # CORE: Multi-stage React → Nginx build
-│   ├── package.json                     # CORE: npm dependencies
-│   ├── .dockerignore                    # OPTIONAL: Docker optimization
+│   ├── Dockerfile                            # Multi-stage React → Nginx build
+│   ├── package.json                         # Frontend dependencies & scripts
+│   ├── .dockerignore                        # Ignore node_modules, build cache
 │   │
-│   ├── public/                          # Static assets
-│   │   ├── index.html                   # CORE: HTML entry
-│   │   ├── favicon.ico                  # OPTIONAL: Browser favicon
-│   │   └── manifest.json                # OPTIONAL: PWA manifest
+│   ├── public/                              # Static public assets
+│   │   ├── index.html                       # HTML entry point
+│   │   ├── favicon.ico                      # Browser favicon
+│   │   └── manifest.json                    # PWA metadata
 │   │
 │   └── src/
-│       ├── index.js                     # CORE: React entry point
-│       ├── App.js                       # CORE: Root component
-│       ├── api.js                       # CORE: Backend API calls
+│       ├── index.js                         # React root renderer
+│       ├── App.js                           # Main application component
+│       ├── api.js                           # Backend API abstraction (domain-aware)
 │       │
-│       ├── components/
-│       │   ├── ProductList.jsx          # CORE: Product listing
-│       │   ├── Availability.jsx         # CORE: Availability prediction UI
-│       │   ├── Replacement.jsx          # CORE: Replacement UI
-│       │   └── NewWidget.jsx            # OPTIONAL: Extra dashboard widget
+│       ├── components/                      # UI components
+│       │   ├── ProductList.jsx              # Product selector list
+│       │   ├── Availability.jsx             # Availability input & request
+│       │   ├── AvailabilityBadge.jsx        # Green/Red availability badge
+│       │   ├── Replacement.jsx              # Replacement suggestions list
+│       │   ├── SalesChart.jsx               # 📊 Sales vs Availability chart
+│       │   └── NewWidget.jsx                # Dashboard stat widget
 │       │
 │       └── styles/
-│           └── App.css                  # CORE: Global styles
+│           └── App.css                      # Global styling
 │
-├── data/                                # Datasets
-│   ├── raw/
-│   │   └── products.csv                 # CORE: Raw product catalog
+├── data/                                    # Domain-based datasets
 │   │
-│   └── processed/
-│       └── features.csv                 # AUTO: ML-ready dataset
+│   ├── grocery/
+│   │   ├── raw/
+│   │   │   └── products.csv                 # Raw grocery product list
+│   │   └── processed/
+│   │       └── features.csv                 # ML-ready features for grocery (auto-generated)
+│   │
+│   ├── electronics/
+│   │   ├── raw/
+│   │   │   └── products.csv                 # Raw electronics product list
+│   │   └── processed/
+│   │       └── features.csv                 # ML-ready features for electronics (auto-generated)
+│   │
+│   └── accessories/
+│       ├── raw/
+│       │   └── products.csv                 # Raw accessories product list
+│       └── processed/
+│           └── features.csv                 # ML-ready features for accessories (auto-generated)
 │
-├── docs/                                # Documentation assets
+├── docs/                                    # Documentation
 │   └── assets/
-│       └── architecture.png             # CORE: System architecture diagram
+│       └── architecture.png                 # System architecture diagram
 │
-├── grocery.db                           # OPTIONAL: SQLite DB (local dev)
-│
-├── docker-compose.yml                   # CORE: Multi-container orchestration
-├── .gitignore                           # CORE: Git ignore rules
-├── LICENSE                              # CORE: Restrictive license
-└── README.md                            # CORE: Project documentation
+├── grocery.db                               # Optional SQLite DB (local dev)
+├── docker-compose.yml                       # Orchestrates backend + frontend containers
+├── CHANGELOG.md                             # 
+├── .gitignore                               # Git ignore rules
+├── LICENSE                                  # Project license
+└── README.md                                # Project overview & usage guide
 ```
 
 **🏷️ File Classification Summary**
@@ -309,12 +366,21 @@ grocery-availability-recommender/
 docker compose up --build     # Build and start all services in your terminal/powershell from project root.
 ```
 
+**or**
+
+```dockerfile
+docker compose up backend     # For backend
+docker compose up frontend    # Fpr frontend
+docker compose up             # For merging and compossing both backent and frontend like integration.
+```
+
 > To stop the services, press `CTRL + C` in the terminal/powershell where `docker compose up` is running. to force stop the process, press CTRL + C twice.
 
 ```docker
-docker compose down            # Stop and remove containers when done.
+docker compose down            # Stop and remove containers when done. (optional)
 ```
 
+**Additional Information:**
 **More commands to manage the Docker Compose setup:**
 
 ```docker
@@ -347,76 +413,106 @@ docker compose events              # View real-time events from the Docker daemo
 docker compose scale backend=3 frontend=2 # Scale services to specified number of containers.
 ```
 
-**Access the application:**
-
-```
-http://localhost:3000        # Frontend
-http://localhost:5000        # Backend API
-http://localhost:5000/health # Health Check
-```
-
 ---
 
 ## 🔌 API Endpoints
+```table
+| Method | Endpoint | Description |
+|------|--------|-------------|
+| GET | `/` | API status |
+| GET | `/health` | Health check |
+| GET | `/api/domains` | List available domains |
+| GET | `/api/products?domain=grocery` | Fetch products by domain |
+| POST | `/api/predict-availability` | Predict availability |
+| POST | `/api/recommend` | Get similarity-based replacements |
+```
 
-`
+### Access the application:
+```link
+http://localhost:3000                                 # Frontend (React Dashboard)
+http://localhost:5000                                 # Backend API (Flask)
+http://localhost:5000/health                          # Backend Health Check
+http://localhost:5000/api/domains                     # Available Product Domains
+http://localhost:5000/api/products?domain=grocery     # Products by Domain
+```
 
-Method
-
-Endpoint
-
-Description
-
-GET
-
-`/`
-
-API status
-
-GET
-
-`/health`
-
-Health check (Docker/Prod)
-
-POST
-
-`/api/predict-availability`
-
-Predict item availability
-
-POST
-
-`/api/recommend`
-
-Get replacement suggestions
-
-`
+### Each url is used for,
+```table
+| URL             | Purpose                                              |
+| --------------- | ---------------------------------------------------- |
+| `:3000`         | User-facing React UI                                 |
+| `:5000`         | Backend API base                                     |
+| `/health`       | Docker & production readiness check                  |
+| `/api/domains`  | Verify detected domains (grocery, electronics, etc.) |
+| `/api/products` | Fetch domain-specific product catalog                |
+```
 
 ---
 
 ## 🧪 Example Workflow
 
-1.  User opens frontend dashboard
-2.  Selects a grocery product
-3.  Checks availability using ML model
-4.  If unavailable, system suggests replacements
-5.  Results displayed in real time
+1.  User selects a domain (grocery / electronics / accessories)
+2.  User selects a product
+3.  Enters recent sales and day
+4.  ML model predicts availability
+5.  Availability badge updates instantly
+6.  Sales vs availability chart is rendered
+7.  If unavailable, similar replacements are suggested
+
+---
+
+## 🖼️ Screenshots
+
+> Screenshots are captured from the running Dockerized application.
+
+### 📌 Dashboard Overview
+- Domain selector
+- Product list
+- Availability widgets
+
+📷 `docs/assets/screenshots/dashboard.png`
+
+
+### 📊 Sales vs Availability Chart
+- Visual correlation between sales and stock availability
+- Updates dynamically per product
+
+📷 `docs/assets/screenshots/sales_chart.png`
+
+
+### 🟢 Availability Badge
+- Green: Available
+- Red: Out of Stock
+
+📷 `docs/assets/screenshots/availability_badge.png`
+
+
+### 🔁 Replacement Suggestions
+- Similarity-based alternatives
+- Ranked by cosine similarity
+
+📷 `docs/assets/screenshots/replacements.png`
 
 ---
 
 ## 🧠 Machine Learning Details
 
--   Availability Model
-    
-    -   Logistic Regression
-    -   Features: recent sales, day of week
--   Replacement Logic
-    
-    -   Category-based similarity
-    -   Simple, explainable recommendations
+### Availability Model
 
-> Models are intentionally lightweight to support fast inference and easy explainability for academic evaluation.
+-   Logistic Regression (Scikit-learn)
+-   Features:
+    -   Recent sales
+    -   Day of week
+-   Separate model per domain
+-   Automatic training on container startup
+
+### Replacement Model
+
+-   TF-IDF Vectorization
+-   Cosine Similarity
+-   Text-based similarity between product names
+
+> Models are lightweight, explainable, and optimized for real-time inference.
 
 ---
 
@@ -515,4 +611,4 @@ For academic or permission-based usage, please contact the project owner.
 
 ---
 
-**© 2026  Team. All rights reserved.**
+**© 2026 Team. All rights reserved.**
