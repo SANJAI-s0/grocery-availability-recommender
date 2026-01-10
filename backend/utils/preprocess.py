@@ -1,44 +1,50 @@
-# backend/utils/preprocess.py
-# Create a simple features.csv (sales, day, available) from products.csv
-# This is intentionally simple and deterministic to be reproducible for demo.
-
+import sys
 import pandas as pd
-import numpy as np
 from pathlib import Path
+import hashlib
+
+if len(sys.argv) != 2:
+    print("Usage: python preprocess.py <domain>")
+    sys.exit(1)
+
+DOMAIN = sys.argv[1]
 
 ROOT = Path(__file__).resolve().parents[2]
-RAW_DIR = ROOT / "data" / "raw"
-PROCESSED_DIR = ROOT / "data" / "processed"
+RAW_DIR = ROOT / "data" / DOMAIN / "raw"
+PROCESSED_DIR = ROOT / "data" / DOMAIN / "processed"
 PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
 
-def build_features(products_csv="products.csv", out_csv="features.csv"):
-    products_path = RAW_DIR / products_csv
-    if not products_path.exists():
-        raise FileNotFoundError(f"{products_path} not found. Place products CSV at data/raw/")
+RAW_CSV = RAW_DIR / "products.csv"
+OUT_CSV = PROCESSED_DIR / "features.csv"
 
-    df = pd.read_csv(products_path)
+if not RAW_CSV.exists():
+    raise FileNotFoundError(f"{RAW_CSV} not found")
 
-    # create deterministic synthetic sales/day/availability columns:
-    # Sales: based on hash of name mod 40
-    # Day: 1..7 (weekday)
-    # Available: set to 0 if sales > threshold to simulate stockout
-    sales = df['name'].apply(lambda s: (abs(hash(s)) % 40) + 1)
-    day = df['name'].apply(lambda s: (abs(hash(s)) % 7) + 1)
-    threshold = 30  # higher sales -> more chance of stockout for demo
-    available = sales.apply(lambda v: 0 if v > threshold else 1)
+df = pd.read_csv(RAW_CSV)
 
-    features = pd.DataFrame({
-        'product_id': df.get('product_id', pd.Series(range(1, len(df)+1))),
-        'name': df['name'],
-        'sales': sales,
-        'day': day,
-        'available': available
-    })
+required_cols = {"product_id", "name"}
+missing = required_cols - set(df.columns)
+if missing:
+    raise ValueError(f"products.csv missing columns: {missing}")
 
-    out_path = PROCESSED_DIR / out_csv
-    features.to_csv(out_path, index=False)
-    print(f"Wrote features to {out_path}")
-    return features
+def stable_hash(value: str) -> int:
+    return int(hashlib.md5(value.encode()).hexdigest(), 16)
 
-if __name__ == "__main__":
-    build_features()
+df["sales"] = df["name"].apply(lambda x: (stable_hash(x) % 50) + 1)
+df["day"] = df["product_id"].apply(lambda x: (x % 7) + 1)
+
+df["available"] = df.apply(
+    lambda r: 0 if (r["sales"] > 35 and r["day"] in [5, 6, 7]) else 1,
+    axis=1
+)
+
+features = df[
+    ["product_id", "name", "sales", "day", "available"]
+]
+
+features.to_csv(OUT_CSV, index=False)
+
+print("✅ Preprocessing completed")
+print(f"🏷️ Domain: {DOMAIN}")
+print(f"📦 Products processed: {len(features)}")
+print(f"💾 Output written to: {OUT_CSV}")

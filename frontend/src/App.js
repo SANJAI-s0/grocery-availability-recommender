@@ -1,56 +1,122 @@
-// frontend/src/App.js
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./styles/App.css";
 
 import Availability from "./components/Availability";
 import ProductList from "./components/ProductList";
 import Replacement from "./components/Replacement";
 import NewWidget from "./components/NewWidget";
+import AvailabilityBadge from "./components/AvailabilityBadge";
+import SalesChart from "./components/SalesChart";
 
-import { predictAvailability, getReplacements } from "./api";
-
-const SAMPLE_PRODUCTS = [
-  { sku: "SKU001", name: "Whole Milk", category: "Dairy", price: 2.5 },
-  { sku: "SKU002", name: "Skim Milk", category: "Dairy", price: 2.4 },
-  { sku: "SKU003", name: "Almond Milk", category: "Dairy", price: 3.0 },
-  { sku: "SKU004", name: "Brown Bread", category: "Bakery", price: 1.8 },
-  { sku: "SKU005", name: "White Bread", category: "Bakery", price: 1.5 }
-];
+import {
+  fetchProducts,
+  getReplacements,
+  fetchDomains,
+} from "./api";
 
 function App() {
-  const [availabilityResult, setAvailabilityResult] = useState(null);
-  const [replacements, setReplacements] = useState([]);
+  const [domains, setDomains] = useState([]);
+  const [domain, setDomain] = useState("grocery");
+
+  const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
+  const [availabilityResult, setAvailabilityResult] = useState(null);
+  const [replacements, setReplacements] = useState([]);
+
+  const [loadingProducts, setLoadingProducts] = useState(false);
+
+  /* -------------------------------------------------
+     Load domains (once)
+  -------------------------------------------------- */
   useEffect(() => {
+    fetchDomains()
+      .then((d) => {
+        setDomains(d);
+        if (d.length > 0 && !d.includes(domain)) {
+          setDomain(d[0]);
+        }
+      })
+      .catch(() => {
+        setDomains(["grocery"]);
+      });
+  }, []); // eslint-disable-line
+
+  /* -------------------------------------------------
+     Load products when domain changes
+  -------------------------------------------------- */
+  useEffect(() => {
+    if (!domain) return;
+
+    setLoadingProducts(true);
+    fetchProducts(domain)
+      .then((rows) => {
+        setProducts(rows);
+        setSelectedProduct(null);
+        setAvailabilityResult(null);
+        setReplacements([]);
+      })
+      .catch(() => {
+        setProducts([]);
+      })
+      .finally(() => setLoadingProducts(false));
+  }, [domain]);
+
+  /* -------------------------------------------------
+     When a product is selected
+  -------------------------------------------------- */
+  async function handleSelect(product) {
+    setSelectedProduct(product);
+    setAvailabilityResult(null);
     setReplacements([]);
-  }, [selectedProduct]);
 
-  async function onAvailabilityResult(res) {
-    setAvailabilityResult(res);
-  }
-
-  async function onSuggest(productName) {
-    setSelectedProduct(productName);
     try {
-      const recs = await getReplacements(productName);
+      const recs = await getReplacements({
+        name: product.name,
+        domain,
+      });
       setReplacements(recs);
     } catch (err) {
-      alert("Error: " + err.message);
+      console.warn("Replacement error:", err);
     }
   }
 
   return (
     <div className="app-root">
-      <h1>Grocery Availability Recommender</h1>
+      {/* ---------------- HEADER ---------------- */}
+      <header
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          gap: 20,
+        }}
+      >
+        <h1>Availability Recommender</h1>
 
-      {/* Dashboard widgets */}
+        <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+          <label style={{ fontSize: 14 }}>Domain</label>
+          <select
+            value={domain}
+            onChange={(e) => setDomain(e.target.value)}
+          >
+            {domains.map((d) => (
+              <option key={d} value={d}>
+                {d}
+              </option>
+            ))}
+          </select>
+        </div>
+      </header>
+
+      {/* ---------------- KPI WIDGETS ---------------- */}
       <div className="widget-grid">
         <NewWidget
           title="Selected Product"
-          value={selectedProduct || "None"}
-          description="Product currently under analysis"
+          value={selectedProduct ? selectedProduct.name : "None"}
+          description="Product under analysis"
         />
+
         <NewWidget
           title="Availability"
           value={
@@ -60,8 +126,19 @@ function App() {
                 : "Out of Stock"
               : "Not Checked"
           }
-          description="Predicted by ML model"
+          description="ML prediction"
         />
+
+        <NewWidget
+          title="Confidence"
+          value={
+            availabilityResult
+              ? `${Math.round(availabilityResult.confidence * 100)}%`
+              : "-"
+          }
+          description="Model certainty"
+        />
+
         <NewWidget
           title="Replacement Count"
           value={replacements.length}
@@ -69,20 +146,63 @@ function App() {
         />
       </div>
 
+      {/* ---------------- MAIN CONTENT ---------------- */}
       <div className="container">
+        {/* LEFT COLUMN */}
         <div>
-          <ProductList
-            products={SAMPLE_PRODUCTS}
-            onSelect={(name) => onSuggest(name)}
-          />
-          <Availability onResult={onAvailabilityResult} />
+          <div className="card">
+            <h3>🛒 Products</h3>
+            {loadingProducts ? (
+              <p>Loading products...</p>
+            ) : (
+              <ProductList
+                products={products}
+                onSelect={handleSelect}
+              />
+            )}
+          </div>
+
+          <div className="card">
+            <Availability
+              product={selectedProduct}
+              domain={domain}
+              onResult={setAvailabilityResult}
+            />
+          </div>
         </div>
 
+        {/* RIGHT COLUMN */}
         <div>
-          <Replacement items={replacements} />
-          <div className="debug-card">
+          <div className="card">
+            <Replacement items={replacements} />
+          </div>
+
+          {availabilityResult && (
+            <div className="card">
+              <AvailabilityBadge
+                available={availabilityResult.available}
+                confidence={availabilityResult.confidence}
+              />
+            </div>
+          )}
+
+          {availabilityResult && (
+            <div className="card">
+              <h4>📊 Sales vs Availability</h4>
+              <SalesChart
+                sales={selectedProduct?.sales || 0}
+                confidence={availabilityResult.confidence}
+              />
+            </div>
+          )}
+
+          <div className="card debug-card">
             <h4>Raw Availability Output</h4>
-            <pre>{JSON.stringify(availabilityResult, null, 2)}</pre>
+            <pre style={{ fontSize: 13 }}>
+              {availabilityResult
+                ? JSON.stringify(availabilityResult, null, 2)
+                : "null"}
+            </pre>
           </div>
         </div>
       </div>

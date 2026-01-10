@@ -1,7 +1,7 @@
 // frontend/src/components/Replacement.jsx
 import React from "react";
 
-export default function Replacement({ items = [] }) {
+const Replacement = ({ items = [] }) => {
   return (
     <div className="card">
       <h3>🔁 Recommended Replacements</h3>
@@ -10,11 +10,13 @@ export default function Replacement({ items = [] }) {
         <p>No replacement suggestions yet.</p>
       ) : (
         <ol>
-          {items.map((item) => (
-            <li key={item}>{item}</li>
+          {items.map((item, index) => (
+            <li key={`${item}-${index}`}>{item}</li>
           ))}
         </ol>
       )}
     </div>
   );
-}
+};
+
+export default Replacement;

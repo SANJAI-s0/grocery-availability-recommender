@@ -1,28 +1,33 @@
-import os
 import pandas as pd
-from sklearn.linear_model import LogisticRegression
 import joblib
+from sklearn.linear_model import LogisticRegression
+from pathlib import Path
 
-# Absolute path to backend/models
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))  # backend/
-MODEL_DIR = os.path.join(BASE_DIR, "models")
-os.makedirs(MODEL_DIR, exist_ok=True)
+ROOT = Path(__file__).resolve().parents[2]
+DATA_DIR = ROOT / "data"
+MODEL_DIR = ROOT / "backend" / "models" / "availability"
+MODEL_DIR.mkdir(parents=True, exist_ok=True)
 
-# Dummy training data
-data = pd.DataFrame({
-    "sales": [5, 20, 2, 30, 1],
-    "day": [1, 2, 3, 4, 5],
-    "available": [1, 0, 1, 0, 1]
-})
+trained = False
 
-X = data[["sales", "day"]]
-y = data["available"]
+for domain_dir in DATA_DIR.iterdir():
+    features_path = domain_dir / "processed" / "features.csv"
+    if not features_path.exists():
+        continue
 
-model = LogisticRegression()
-model.fit(X, y)
+    df = pd.read_csv(features_path)
 
-# Save model correctly
-model_path = os.path.join(MODEL_DIR, "availability_model.pkl")
-joblib.dump(model, model_path)
+    X = df[["sales", "day"]]
+    y = df["available"]
 
-print(f"Availability model saved at: {model_path}")
+    model = LogisticRegression(max_iter=1000)
+    model.fit(X, y)
+
+    out_path = MODEL_DIR / f"{domain_dir.name}.pkl"
+    joblib.dump(model, out_path)
+
+    print(f"✅ Trained availability model for domain: {domain_dir.name}")
+    trained = True
+
+if not trained:
+    raise RuntimeError("No domains found with processed data")

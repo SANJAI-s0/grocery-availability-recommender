@@ -1,0 +1,16 @@
+product_id,name,sales,day,available
+101,Smartphone,39,4,1
+102,Laptop,46,5,0
+103,Tablet,3,6,1
+104,Smart TV,14,7,1
+105,Bluetooth Speaker,14,1,1
+106,Wireless Earbuds,11,2,1
+107,Smart Watch,3,3,1
+108,Router,50,4,1
+109,Power Bank,34,5,1
+110,DSLR Camera,47,6,0
+111,Home Theater System,43,7,0
+112,Microwave Oven,43,1,1
+113,Air Conditioner,26,2,1
+114,Refrigerator,13,3,1
+115,Washing Machine,6,4,1

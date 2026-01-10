@@ -1,51 +1,73 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Basic Meta -->
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="theme-color" content="#2563EB" />
-
-    <!-- Title -->
     <title>Grocery Availability Recommender</title>
 
-    <!-- SEO -->
-    <meta
-      name="description"
-      content="Predict grocery item availability and recommend intelligent replacements using machine learning."
-    />
-    <meta
-      name="keywords"
-      content="grocery, availability, machine learning, recommendations, inventory, AI"
-    />
-    <meta name="author" content="Final Year Project Team" />
-
-    <!-- Favicons -->
+    <meta name="description" content="Predict grocery item availability and recommend replacements." />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <link rel="icon" type="image/svg+xml" href="%PUBLIC_URL%/favicon.svg" />
 
-    <!-- Apple Touch Icon -->
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/favicon.svg" />
-
-    <!-- Manifest (optional, future PWA support) -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-
-    <!-- Performance: prevent FOUC -->
     <style>
-      body {
-        margin: 0;
-        background: #f4f7fb;
+      :root {
+        --bg: #f4f7fb;
+        --card: #fff;
+        --muted: #64748b;
+        --accent: #2563eb;
       }
+      html,body { height:100%; margin:0; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:var(--bg); color:#0f172a; }
+      .wrap { max-width:1100px; margin:36px auto; padding:20px; }
+      .hero { display:flex; gap:24px; align-items:center; }
+      .title { font-size:28px; font-weight:700; margin:0; }
+      .lead { color:var(--muted); margin-top:6px; }
+      .grid { display:grid; grid-template-columns: 1fr 330px; gap:20px; margin-top:28px; }
+      .card { background:var(--card); border-radius:12px; padding:20px; box-shadow: 0 10px 24px rgba(15,23,42,0.06); }
+      .links a { display:block; margin:8px 0; color:var(--accent); text-decoration:none; font-weight:600; }
+      .hint { color:var(--muted); font-size:13px; margin-top:6px; }
+      pre { background:#0b1220; color:#e6eef8; padding:12px; border-radius:8px; overflow:auto; font-size:13px; }
     </style>
   </head>
 
   <body>
-    <!-- Fallback for users with JS disabled -->
-    <noscript>
-      You need to enable JavaScript to run this application.
-    </noscript>
+    <div class="wrap">
+      <div class="hero">
+        <div>
+          <h1 class="title">Grocery Availability Recommender</h1>
+          <div class="lead">Production-oriented UI (React). If React fails to mount, use the links to test the backend directly.</div>
+        </div>
+      </div>
 
-    <!-- React mounts here -->
+      <div class="grid">
+        <div class="card">
+          <h3>Quick test links (backend)</h3>
+          <div class="links">
+            <a href="http://localhost:5000/health" target="_blank">Backend health — GET /health</a>
+            <a href="http://localhost:5000/api/domains" target="_blank">Available domains — GET /api/domains</a>
+            <a href="http://localhost:5000/api/products?domain=grocery" target="_blank">Products (grocery) — GET /api/products?domain=grocery</a>
+            <a href="http://localhost:5000/api/products?domain=electronics" target="_blank">Products (electronics) — GET /api/products?domain=electronics</a>
+          </div>
+
+          <p class="hint">Notes: Frontend will be served from <strong>http://localhost:3000</strong> (nginx). If that URL is blank check Docker Desktop or the compose logs.</p>
+        </div>
+
+        <div class="card">
+          <h4>Status / Example</h4>
+          <p class="hint">Example POST payload for predict availability (use e.g. curl or Postman):</p>
+          <pre>
+POST /api/predict-availability
+Content-Type: application/json
+
+{ "sales": 22, "day": 6 }
+          </pre>
+        </div>
+      </div>
+
+      <div style="margin-top:18px; color:var(--muted); font-size:13px;">
+        <strong>Tip:</strong> If frontend doesn't show, check that Docker mapped port <code>3000</code> to your host and that the React build completed successfully during `docker compose build`. To see frontend static files directly, open <a href="http://localhost:3000" target="_blank">http://localhost:3000</a>.
+      </div>
+    </div>
+
     <div id="root"></div>
   </body>
 </html>

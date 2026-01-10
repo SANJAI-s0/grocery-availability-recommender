@@ -1,16 +1,23 @@
 from flask import Blueprint, request, jsonify
-import joblib
-import numpy as np
+from models import load_availability_model
 
 availability_bp = Blueprint("availability", __name__)
-model = joblib.load("models/availability_model.pkl")
 
 @availability_bp.route("/predict-availability", methods=["POST"])
-def predict_availability():
-    data = request.json
-    features = np.array([[data["sales"], data["day"]]])
-    prediction = model.predict(features)[0]
+def predict():
+    data = request.get_json() or {}
+    domain = data.get("domain", "grocery")
+
+    model = load_availability_model(domain)
+
+    sales = data["sales"]
+    day = data["day"]
+
+    prob = model.predict_proba([[sales, day]])[0]
+    confidence = float(prob[1])
+    available = confidence >= 0.5
 
     return jsonify({
-        "available": bool(prediction)
+        "available": available,
+        "confidence": round(confidence, 3)
     })

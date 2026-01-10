@@ -1,4 +1,10 @@
-/* Global */
+/* =========================
+   GLOBAL RESET
+========================= */
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: "Segoe UI", Roboto, sans-serif;
   margin: 0;
@@ -7,27 +13,59 @@ body {
   color: #1e293b;
 }
 
-h1 {
-  margin-bottom: 20px;
+/* =========================
+   APP WRAPPER
+========================= */
+.app {
+  max-width: 1280px;
+  margin: 0 auto;
 }
 
-/* Layout */
-.container {
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+/* =========================
+   DASHBOARD WIDGETS
+========================= */
+.widget-grid {
   display: grid;
-  grid-template-columns: 1.4fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+/* =========================
+   MAIN LAYOUT
+========================= */
+.layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
   gap: 24px;
 }
 
-/* Cards */
+.left,
+.right {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* =========================
+   CARD
+========================= */
 .card {
   background: #ffffff;
   padding: 20px;
-  border-radius: 12px;
+  border-radius: 14px;
   box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
-  margin-bottom: 20px;
 }
 
-/* Product List */
+/* =========================
+   PRODUCT LIST
+========================= */
 .product-item {
   display: flex;
   justify-content: space-between;
@@ -42,12 +80,13 @@ h1 {
 
 .product-name {
   font-weight: 600;
+  font-size: 15px;
 }
 
 .category {
   background: #eef2ff;
   color: #4338ca;
-  padding: 3px 10px;
+  padding: 4px 10px;
   border-radius: 999px;
   font-size: 12px;
   margin-left: 8px;
@@ -55,30 +94,63 @@ h1 {
 
 .price {
   color: #0ea5a4;
-  font-weight: bold;
+  font-weight: 700;
+  font-size: 14px;
 }
 
-/* Buttons */
+/* =========================
+   BUTTONS
+========================= */
 button {
   background: linear-gradient(135deg, #2563eb, #4f46e5);
   border: none;
-  color: #fff;
+  color: #ffffff;
   padding: 8px 14px;
   border-radius: 8px;
+  font-size: 13px;
   cursor: pointer;
+  transition: transform 0.1s ease, opacity 0.2s ease;
 }
 
 button:hover {
-  opacity: 0.9;
+  opacity: 0.95;
+  transform: translateY(-1px);
 }
 
-/* Status */
+/* =========================
+   STATUS TEXT
+========================= */
 .status-ok {
   color: #16a34a;
-  font-weight: bold;
+  font-weight: 700;
 }
 
 .status-bad {
   color: #dc2626;
-  font-weight: bold;
+  font-weight: 700;
+}
+
+/* =========================
+   DEBUG OUTPUT
+========================= */
+pre {
+  background: #0f172a;
+  color: #e5e7eb;
+  padding: 14px;
+  border-radius: 10px;
+  overflow-x: auto;
+  font-size: 13px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .widget-grid {
+    grid-template-columns: 1fr;
+  }
 }

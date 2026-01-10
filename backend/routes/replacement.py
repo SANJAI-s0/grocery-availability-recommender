@@ -1,17 +1,27 @@
 from flask import Blueprint, request, jsonify
-import joblib
+from models import load_replacement_model
 
 replacement_bp = Blueprint("replacement", __name__)
-vectorizer, similarity_matrix, product_names = joblib.load(
-    "models/replacement_model.pkl"
-)
 
 @replacement_bp.route("/recommend", methods=["POST"])
 def recommend():
-    item = request.json["item"]
-    idx = product_names.index(item)
-    scores = list(enumerate(similarity_matrix[idx]))
-    scores = sorted(scores, key=lambda x: x[1], reverse=True)[1:4]
+    data = request.get_json() or {}
+    domain = data.get("domain", "grocery")
+    name = data.get("name")
 
-    recommendations = [product_names[i] for i, _ in scores]
-    return jsonify({"replacements": recommendations})
+    model = load_replacement_model(domain)
+    products = model["products"]
+    similarity = model["similarity"]
+
+    if name not in products:
+        return jsonify({"replacements": []})
+
+    idx = products.index(name)
+    scores = list(enumerate(similarity[idx]))
+    scores = sorted(scores, key=lambda x: x[1], reverse=True)
+
+    return jsonify({
+        "replacements": [
+            products[i] for i, s in scores[1:6] if s > 0.1
+        ]
+    })
